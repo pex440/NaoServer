@@ -7,13 +7,21 @@ from NAO import NAO
 app = Flask(__name__)
 robotIp = "utente.local" # sto usando il robot virtuale di choregraphe
 nao = NAO(robotIp)
-@app.route("/")
+
+
+@app.route("/",methods=["GET","POST"])        
 def index():
-    if request.method == "GET": # todo: passare alle richieste POST
-        comando = request.values.get('comando')
-        nao.eseguiComando(comando)
+    if request.method == "POST": 
+        try:
+            comando = request.json['comando']
+            nao.eseguiComando(comando)
+            print("Comando ricevuto",comando)
+        except Exception as e:
+            print(e)
         
-        return render_template("index.html",comandi=nao.getMetodiUtilizzabili())
+    return render_template("index.html",comandi=nao.getMetodiUtilizzabili())
+
+# aggiungere barra per distanza di movimento e sistemare css
 
         
 if __name__ == "__main__":
