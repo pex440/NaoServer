@@ -8,35 +8,31 @@
     <link rel= "stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
 <body>
-    <ul id="comandi">
-        {% for comando in comandi %}
-            <li><button id="{{comando}}">{{comando}}</button></li>
+    {% for comando in comandiNonMovimento %}
+        <ul id="comandiNonMovimento">
+                {% if comando == 'say' %}
+                    <div id="divSay">
+                        <li>
+                            <input type="text" name="cosaDire" id="cosaDire" placeholder="Inserisci qui il testo">
+                            <button id="{{comando}}">{{comando}}</button>
+                        </li>
+                    </div>
+                    {% else %}
+                        <li>
+                            <button id="{{comando}}">{{comando}}</button>
+                        </li>
+                {% endif %}
+        </ul>
+    {% endfor %}
+
+
+
+    <div id="comandiMovimento">
+        {% for comando in comandiMovimento %}
+            <button id={{comando}} class="comandoMovimento">{{comando}}</button>
         {% endfor %}
-    </ul>
+    </div>
+
 </body>
-    <script>
-
-        function sendPostRequest(url, data) {
-            return fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-        }
-
-        const pulsanti = document.querySelectorAll("button");
-        pulsanti.forEach((pulsante)=>{
-            pulsante.addEventListener("click",()=>{
-                // window.location.href = "./?comando="+pulsante.innerHTML;
-
-                sendPostRequest('./',{"comando":pulsante.innerHTML})
-                    .then(()=>{
-                    console.log("Comando inviato");
-                    });
-
-            })
-        })    
-    </script>
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
 </html>
