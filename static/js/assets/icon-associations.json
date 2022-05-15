@@ -1,0 +1,15 @@
+{
+    "camminaAvanti":"bi bi-arrow-up",
+    "camminaDestra":"bi bi-arrow-right",
+    "camminaIndietro":"bi bi-arrow-down",
+    "camminaSinistra":"bi bi-arrow-left",
+    "camminaNE":"bi bi-arrow-up-right",
+    "camminaNW":"bi bi-arrow-up-left",
+    "camminaSE":"bi bi-arrow-down-right",
+    "camminaSW":"bi bi-arrow-down-left",
+    "wakeUp":"bi bi-brightness-high-fill",
+    "standUp":"bi bi-brightness-high-fill",
+    "crouch":"bi bi-moon",
+    "sitDown":"bi bi-moon",
+    "say":"bi bi-play"
+}

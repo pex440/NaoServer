@@ -4,35 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comandi Nao</title>
-    <link rel= "stylesheet" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <title>Connetti Robot</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    {% for comando in comandiNonMovimento %}
-        <ul id="comandiNonMovimento">
-                {% if comando == 'say' %}
-                    <div id="divSay">
-                        <li>
-                            <input type="text" name="cosaDire" id="cosaDire" placeholder="Inserisci qui il testo">
-                            <button id="{{comando}}">{{comando}}</button>
-                        </li>
-                    </div>
-                    {% else %}
-                        <li>
-                            <button id="{{comando}}">{{comando}}</button>
-                        </li>
-                {% endif %}
-        </ul>
-    {% endfor %}
+    <div id="container">
+        <header><h1>Connetti il Robot</h1></header>
 
-
-
-    <div id="comandiMovimento">
-        {% for comando in comandiMovimento %}
-            <button id={{comando}} class="comandoMovimento">{{comando}}</button>
-        {% endfor %}
+    <form method="GET" action="{{url_for('comandi')}}">
+        <input type="text" name="robotIp" placeholder="IP" required>
+        <input type="number" min="1024" max="49151" name="robotPort" placeholder="Porta">
+        <br>
+        <input type="submit" value="Collegati">
+    </form>
     </div>
-
 </body>
-    <script src="{{url_for('static',filename='js/script.js')}}"></script>
 </html>

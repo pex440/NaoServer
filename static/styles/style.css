@@ -1,15 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root{
+    --radius:10px;
+    --over-opacity:50%;
+    --transition:.3s;
+    --text-color:rgb(255, 255, 255);
+    --bgcolor1:#212a53;
+    --bgcolor2:#225885;
+    --bgcolor3:#286ba1;
+    --button-input-bgcolor:#333;
+
+}
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
 body{
+    font-family: 'Roboto', sans-serif;
+    min-height:100vh;
+    overflow: overlay;
+    background-color: var(--bgcolor1);
+	background: linear-gradient(45deg, var(--bgcolor1), var(--bgcolor2), var(--bgcolor3));
+	background-size: 400% 400%;
+	animation: gradient 7s ease infinite;
     margin: 0;
-    background-color: #0f161e;
 }
 
-#comandiNonMovimento li {
-    margin:2vw;
-    font-size: 3vw;
+header{
+    color: var(--text-color);
+    text-align: center;
 }
 
-/* #comandiMovimento {
-    max-width: 30vw; 
-} */
+#container{
+    background-color: rgba(255,255,255, 0.1);
+    border-radius: var(--radius);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding:4vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 
-/*TODO: SISTEMARE CSS*/
+#container form {
+    display: flex;
+    align-items: center;    
+    flex-direction: column;
+}
+
+#comandiNonMovimento li{
+    color:var(--text-color);
+}
+
+
+#comandiNonMovimento{
+    list-style-type: none;
+    text-align: center;
+}
+
+
+
+button,input {
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 10px 10px 4px;
+    color: var(--text-color);
+    background-color: var(--button-input-bgcolor);
+    transition:var(--transition);
+    font-size:1.5vw;
+    margin:.5vw;
+    border-radius: var(--radius) ;
+    padding:1vw;
+
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+button:hover,input:hover{
+    opacity:var(--over-opacity);
+}
+
+input:focus{
+    opacity:100%;
+}
+
+@media (max-width: 1200px){
+    button,input{font-size:3vw;padding:1.5vw;}
+}
+
+@media (max-width: 768px){
+    button,input{font-size:5vw;padding:2vw;}
+}
+
+@media (max-width:500px){
+    button,input{font-size:6vw;padding:2.3vw;}
+}

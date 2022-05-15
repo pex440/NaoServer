@@ -1,45 +1,69 @@
 from qi import Session
 
 class NAO:
+
+    # per aggiungere un comando
+    # aggiungilo ad una lista di queste e poi a metodiUtilizzabili
+    # Se il nuovo comando e' accessibile dall'utente e vuoi che ci sia un'icona bootstrap
+    # aggiungilo anche alla lista di icone in /static/js/assets/icon-associations.json
+
+    metodiMovimento = [
+        'camminaAvanti',
+        'camminaIndietro',
+        'camminaSinistra',
+        'camminaDestra',
+        'camminaNW',
+        'camminaNE',
+        'camminaSW',
+        'camminaSE',
+        'standUp',
+        'crouch',
+        'sitDown',
+    ]
+    
+    metodiTTS = [
+        'say'
+    ]
+
+    metodiNonMovimento = metodiTTS
+
+    metodiUtilizzabili = metodiMovimento + metodiTTS
+
     def __init__(self,ip,port=9559):
         self.ip = ip
         self.port= port
         self.session = Session()
         self.session.connect("tcp://"+ip+":"+str(port))
         self.motion = self.session.service("ALMotion")
+        self.motion.wakeUp()
         self.tts = self.session.service("ALTextToSpeech")
-    
-    def getMetodiUtilizzabili(self):
-        metodi_utilizzabili = [method_name for method_name in dir(self)
-                  if callable(getattr(self, method_name))]
-        metodi_utilizzabili.remove("__init__")
-        metodi_utilizzabili.remove("eseguiComando")
-        metodi_utilizzabili.remove("getMetodiUtilizzabili")
-        metodi_utilizzabili.remove("_move")
-        metodi_utilizzabili.remove("getMetodiMovimento")
-        metodi_utilizzabili.remove("getMetodiNonMovimento")
-        return metodi_utilizzabili
-
-    def getMetodiNonMovimento(self):
-        return list(
-            set(self.getMetodiUtilizzabili()) - set(self.getMetodiMovimento())
-        )
-
-    def getMetodiMovimento(self):
-        metodi_movimento = self.getMetodiUtilizzabili()
-        metodi_movimento.remove("say")
-        return metodi_movimento
-     
+        self.posture = self.session.service("ALRobotPosture")
+        self.dialog = self.session.service("ALDialog")
+        
     # todo aggiungere metodi per varie posture 
     def eseguiComando(self,comando):
-        metodi = self.getMetodiUtilizzabili()
-
-        if comando in metodi:
+        if comando in NAO.metodiUtilizzabili:
             getattr(self,comando)()
     
+    # posture
+    def applyPosture(self,whichPosture,speed=0.5):
+        try:
+            self.posture.applyPosture(whichPosture,speed)
+        except Exception as e:
+            print(e)
+
+    def crouch(self):
+        self.applyPosture("Crouch")
+
+    def sitDown(self):
+        self.applyPosture("Sit")
+    def standUp(self):
+        self.applyPosture("Stand")
+    # fine posture
 
     # tts
     def say(self,testo,lingua="italian"):
+        #self.dialog.setLanguage(lingua)
         try:
             # self.tts.setLanguage(lingua)
             self.tts.say(testo)
@@ -49,7 +73,7 @@ class NAO:
 
 
     # motion 
-    def wakeUp(self):
+    def _wakeUp(self):
         try:
             self.motion.wakeUp()
         except Exception as e:
@@ -57,7 +81,7 @@ class NAO:
 
     def _move(self,x,y,theta):
         try:
-            self.motion.wakeUp()
+            self._wakeUp()
             self.motion.moveTo(x,y,theta)
         except Exception as e:
             print(e)
@@ -88,4 +112,4 @@ class NAO:
     # fine motion
 
 if __name__ == '__main__':
-    NAO("utente.local").camminaAvanti()
+    NAO("192.168.1.16").eseguiComando("camminaAvanti")
