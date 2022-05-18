@@ -18,7 +18,6 @@ class NAO:
         'camminaSE',
         'standUp',
         'crouch',
-        'sitDown',
     ]
     
     metodiTTS = [
@@ -55,8 +54,6 @@ class NAO:
     def crouch(self):
         self.applyPosture("Crouch")
 
-    def sitDown(self):
-        self.applyPosture("Sit")
     def standUp(self):
         self.applyPosture("Stand")
     # fine posture
